@@ -3,11 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 
 import { AppThemeProvider, styled } from '@ui/theme';
 import { AppNavigation } from '../app-navigation';
 import { Storybook } from '../../../.storybook';
+import { AppProvider } from '../../store/store';
 
 const StorybookButton = styled.TouchableOpacity`
   height: 32px;
@@ -71,7 +72,11 @@ export const App = () => {
       <AppThemeProvider>
         <NavigationContainer>
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <AppNavigation />
+            <AppProvider>
+              <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled={Platform.OS === 'ios'}>
+                <AppNavigation />
+              </KeyboardAvoidingView>
+            </AppProvider>
           </View>
         </NavigationContainer>
       </AppThemeProvider>
